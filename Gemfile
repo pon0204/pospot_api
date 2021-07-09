@@ -51,6 +51,7 @@ group :development do
   gem 'capistrano-rbenv', '~> 2.2'
   gem 'capistrano-rbenv-vars', '~> 0.1'
   gem 'capistrano3-puma'
+  gem 'capistrano-dotenv', require: false
   gem 'ed25519'
   gem 'bcrypt_pbkdf'
 end
