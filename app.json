@@ -1,0 +1,16 @@
+{
+  "name": "pospot",
+  "description": "This is pospot",
+  "keywords": [],
+  "website": "",
+  "repository": "https://github.com/pon0204/portfolio_pospot/tree/main/api",
+  "env": {},
+  "addons": [
+    "heroku-postgresql:hobby-dev"
+  ],
+  "buildpacks": [{
+    "url": "heroku/nodejs"
+  }, {
+    "url": "heroku/ruby"
+  }]
+}
