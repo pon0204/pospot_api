@@ -11,7 +11,17 @@ set :nginx_config_name, "#{fetch(:application)}.conf"
 set :nginx_sites_enabled_path, "/etc/nginx/conf.d"
 
 append :linked_files, "config/master.key"
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "node_modules"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/socketes", "node_modules"
+
+namespace :deploy do
+  task :restart_puma do
+    invoke  'puma:stop'
+    invoke! 'puma:start'
+  end
+end
+
+after 'deploy:finishing', 'deploy:restart_puma'
+
 # ***** 以上を追加 *****
 
 # Default branch is :master
