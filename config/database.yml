@@ -14,7 +14,7 @@ default: &default
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
-  password: <%= ENV['DB_PASSWORD'] %>
+  password: hogehoge
   host: localhost
 
 development:
@@ -51,5 +51,5 @@ production:
   <<: *default
   database: pospot_production
   username: root
-  password: <%= ENV['DB_PASSWORD'] %>
+  password: hogehoge
   host: <%= ENV['DB_HOSTNAME'] %>
