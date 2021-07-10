@@ -13,6 +13,9 @@ set :nginx_sites_enabled_path, "/etc/nginx/conf.d"
 append :linked_files, "config/master.key"
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "node_modules"
 
+SSHKit.config.command_map.prefix[:puma].push("bundle exec")
+SSHKit.config.command_map.prefix[:pumactl].push("bundle exec")
+
 # ***** 以上を追加 *****
 
 # Default branch is :master
