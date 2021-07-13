@@ -47,9 +47,19 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
+
+# awsEC2のみ pikawaka参考
 production:
   <<: *default
   database: pospot_production
   username: root
-  password: <%= Rails.application.credentials.db[:password] %>
-  host: <%= Rails.application.credentials.db[:hostname] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  socket: /var/lib/mysql/mysql.sock
+
+# capistrano用
+# production:
+#   <<: *default
+#   database: pospot_production
+#   username: root
+#   password: <%= Rails.application.credentials.db[:password] %>
+#   host: <%= Rails.application.credentials.db[:hostname] %>
