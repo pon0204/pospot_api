@@ -11,13 +11,11 @@ class User < ApplicationRecord
   has_many :followers, through: :follower_relationships, source: :follower
 
   def follow!(user)
-    user_id = get_user_id(user)
-    following_relationships.create!(following_id: user_id)
+    following_relationships.create!(following_id: user)
   end
 
   def unfollow!(user)
-    user_id = get_user_id(user)    
-    relation = following_relationships.find_by!(following_id: user_id)
+    relation = following_relationships.find_by!(following_id: user)
     relation.destroy!
   end
 
@@ -38,13 +36,5 @@ class User < ApplicationRecord
     end
   end
 
-  private
-  def get_user_id(user)
-    if user.is_a?(User)
-      user.id
-    else
-      user
-    end
-  end
 end
 
