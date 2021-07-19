@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   root to: 'application#index'
   namespace :api do
     namespace :v1 do
+
+      # get '/posts/:query/page/:page_id', to: 'posts#posts_infinity'
+      get '/posts/user/:user_id/page/:page_id', to: 'posts#posts_current'
       resources :posts do
         resources :likes, only: [:create, :destroy]
       end
