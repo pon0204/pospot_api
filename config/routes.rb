@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
       # get '/posts/:query/page/:page_id', to: 'posts#posts_infinity'
       get '/posts/:query/:user_id/page/:page_id', to: 'posts#profile_posts'
+      get '/posts/New/:genre/:place/page/:page_id', to: 'posts#New_posts'
       resources :posts do
         resources :likes, only: [:create, :destroy]
       end
