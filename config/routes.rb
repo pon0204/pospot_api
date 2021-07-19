@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       # get '/posts/:query/page/:page_id', to: 'posts#posts_infinity'
-      get '/posts/user/:user_id/page/:page_id', to: 'posts#posts_current'
+      get '/posts/:query/:user_id/page/:page_id', to: 'posts#profile_posts'
       resources :posts do
         resources :likes, only: [:create, :destroy]
       end

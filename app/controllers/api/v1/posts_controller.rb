@@ -1,5 +1,5 @@
 class Api::V1::PostsController < SecuredController
-  skip_before_action :authorize_request, only: [:show,:index,:posts_current]
+  skip_before_action :authorize_request, only: [:show,:index,:profile_posts]
 
   def index
     posts = Post.all
@@ -49,8 +49,12 @@ class Api::V1::PostsController < SecuredController
     end
   end  
 
-  def posts_current
+  def profile_posts
+    if params[:query] === 'user'
       posts = Post.where(user_id: params[:user_id]).limit(3).offset(params[:page_id])
+    elsif params[:query] === 'like'
+      posts = Post.joins(:likes).where(likes: {user_id: params[:user_id]}).limit(3).offset(params[:page_id])
+    end
       resluts = post_card(posts)
     render json: {
       posts: resluts,
