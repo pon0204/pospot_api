@@ -2,7 +2,19 @@ class Api::V1::PostsController < SecuredController
   skip_before_action :authorize_request, only: [:show,:New_posts,:profile_posts]
 
   def New_posts
-    posts = Post.order(id: 'DESC').limit(3).offset(params[:page_id])
+    genre = URI.unescape(params[:genre])
+    place = URI.unescape(params[:place])
+
+    if params[:genre] != 'null' && params[:place] != 'null'
+      posts = Post.order(id: 'DESC').joins(:spot).where("genre LIKE ? AND place LIKE ?","%#{genre}%","%#{place}%").limit(3).offset(params[:page_id])
+    elsif params[:genre] != 'null'
+      posts = Post.order(id: 'DESC').where('genre LIKE ?', "%#{genre}%").limit(3).offset(params[:page_id])
+    elsif params[:place] != 'null'
+      posts = Post.order(id: 'DESC').joins(:spot).where('place LIKE ?', "%#{place}%").limit(3).offset(params[:page_id])
+    else
+      posts = Post.order(id: 'DESC').limit(3).offset(params[:page_id])
+    end
+
     resluts = post_card(posts)        
     render json: {
       posts: resluts,
