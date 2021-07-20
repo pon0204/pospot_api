@@ -6,13 +6,13 @@ class Api::V1::PostsController < SecuredController
     place = URI.unescape(params[:place])
 
     if params[:genre] != 'null' && params[:place] != 'null'
-      posts = Post.order(id: 'DESC').joins(:spot).where("genre LIKE ? AND place LIKE ?","%#{genre}%","%#{place}%").limit(3).offset(params[:page_id])
+      posts = Post.order(id: 'DESC').joins(:spot).where("genre LIKE ? AND place LIKE ?","%#{genre}%","%#{place}%").limit(6).offset(params[:page_id])
     elsif params[:genre] != 'null'
-      posts = Post.order(id: 'DESC').where('genre LIKE ?', "%#{genre}%").limit(3).offset(params[:page_id])
+      posts = Post.order(id: 'DESC').where('genre LIKE ?', "%#{genre}%").limit(6).offset(params[:page_id])
     elsif params[:place] != 'null'
-      posts = Post.order(id: 'DESC').joins(:spot).where('place LIKE ?', "%#{place}%").limit(3).offset(params[:page_id])
+      posts = Post.order(id: 'DESC').joins(:spot).where('place LIKE ?', "%#{place}%").limit(6).offset(params[:page_id])
     else
-      posts = Post.order(id: 'DESC').limit(3).offset(params[:page_id])
+      posts = Post.order(id: 'DESC').limit(6).offset(params[:page_id])
     end
 
     resluts = post_card(posts)        
@@ -26,14 +26,15 @@ class Api::V1::PostsController < SecuredController
     genre = URI.unescape(params[:genre])
     place = URI.unescape(params[:place])
     followings_ids = User.find(params[:user_id]).followings.select(:id)
+    
     if params[:genre] != 'null' && params[:place] != 'null'
-      posts = Post.order(id: 'DESC').joins(:spot).where(user_id: [followings_ids]).where("genre LIKE ? AND place LIKE ?","%#{genre}%","%#{place}%" ).limit(3).offset(params[:page_id])
+      posts = Post.order(id: 'DESC').joins(:spot).where(user_id: [followings_ids]).where("genre LIKE ? AND place LIKE ?","%#{genre}%","%#{place}%" ).limit(6).offset(params[:page_id])
     elsif params[:genre] != 'null'
-      posts = Post.order(id: 'DESC').where(user_id: [followings_ids]).where('genre LIKE ?', "%#{genre}%").limit(3).offset(params[:page_id])
+      posts = Post.order(id: 'DESC').where(user_id: [followings_ids]).where('genre LIKE ?', "%#{genre}%").limit(6).offset(params[:page_id])
     elsif params[:place] != 'null'
-      posts = Post.order(id: 'DESC').where(user_id: [followings_ids]).joins(:spot).where('place LIKE ?', "%#{place}%").limit(3).offset(params[:page_id])
+      posts = Post.order(id: 'DESC').joins(:spot).where(user_id: [followings_ids]).where('place LIKE ?', "%#{place}%").limit(6).offset(params[:page_id])
     else
-      posts = Post.order(id: 'DESC').where(user_id: [followings_ids]).limit(3).offset(params[:page_id])
+      posts = Post.order(id: 'DESC').where(user_id: [followings_ids]).limit(6).offset(params[:page_id])
     end
 
     resluts = post_card(posts)        
@@ -46,9 +47,9 @@ class Api::V1::PostsController < SecuredController
 
   def profile_posts
     if params[:query] === 'user'
-      posts = Post.order(id: 'DESC').where(user_id: params[:user_id]).limit(3).offset(params[:page_id])
+      posts = Post.order(id: 'DESC').where(user_id: params[:user_id]).limit(6).offset(params[:page_id])
     elsif params[:query] === 'like'
-      posts = Post.joins(:likes).order(id: 'DESC').where(likes: {user_id: params[:user_id]}).limit(3).offset(params[:page_id])
+      posts = Post.joins(:likes).order(id: 'DESC').where(likes: {user_id: params[:user_id]}).limit(6).offset(params[:page_id])
     end
       resluts = post_card(posts)
     render json: {
@@ -56,7 +57,7 @@ class Api::V1::PostsController < SecuredController
     }, 
     status: :ok
   end
-  
+
   def show
     # postの画像のurlを追加する
     post = Post.find(params[:id])
