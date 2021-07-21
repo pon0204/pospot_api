@@ -18,10 +18,6 @@ class User < ApplicationRecord
     relation = following_relationships.find_by!(following_id: user)
     relation.destroy!
   end
-
-  def has_followed?(user)
-    following_relationships.exists?(following_id: user.id)
-  end
   
   def self.from_token_payload(payload)    
     find_by(sub: payload['sub']) || create!(sub: payload['sub'])
