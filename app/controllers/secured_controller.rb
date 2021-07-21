@@ -6,7 +6,7 @@ class SecuredController < ApplicationController
   def authorize_request
     authorize_request = AuthorizationService.new(request.headers)
     @current_user = authorize_request.current_user
-    authorize_request.create_profile
+    @current_user.create_profile(@current_user)
     authorize_request.authenticate_request!
 
   rescue JWT::VerificationError, JWT::DecodeError
