@@ -12,14 +12,13 @@ class Post < ApplicationRecord
   validates :caption, length: { maximum: 400 }
   validates :genre, presence: true
   validates :with, presence: true
-  
+
   # 紐づいている画像のURLを取得する
   def image_url
     eyecatch.attached? ? url_for(eyecatch) : nil
   end
-  
+
   def avatar_url
     avatar.attached? ? url_for(avatar) : nil
   end
-
 end

@@ -18,17 +18,15 @@ class User < ApplicationRecord
     relation = following_relationships.find_by!(following_id: user)
     relation.destroy!
   end
-  
-  def self.from_token_payload(payload)    
+
+  def self.from_token_payload(payload)
     find_by(sub: payload['sub']) || create!(sub: payload['sub'])
   end
 
-  def create_profile(user)    
+  def create_profile(user)
     if user.profile.blank?
-      profile = user.build_profile(nickname: "ユーザー#{user['id']}",introduction: '')    
+      profile = user.build_profile(nickname: "ユーザー#{user['id']}", introduction: '')
       profile.save
     end
   end
-
 end
-

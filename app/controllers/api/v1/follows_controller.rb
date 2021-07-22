@@ -1,11 +1,11 @@
 class Api::V1::FollowsController < SecuredController
   skip_before_action :authorize_request, only: [:index]
-  
-  def index 
+
+  def index
     current_user = User.find(params[:profile_id])
     followings = current_user.followings.select(:id)
     followers = current_user.followers.select(:id)
-    render json:{
+    render json: {
       followings: followings,
       followers: followers
     }

@@ -9,6 +9,6 @@
   user = User.first
   user.posts.create!(
     title: "タイトル#{number}",
-    caption: "これは#{number}の説明です",
+    caption: "これは#{number}の説明です"
   )
 end

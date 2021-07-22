@@ -1,5 +1,4 @@
 class Api::V1::SpotsController < SecuredController
-
   def create
     # 投稿IDを取得
     post_id = params.permit(:id)
@@ -7,14 +6,14 @@ class Api::V1::SpotsController < SecuredController
     post = Post.find_by(id: post_id['id'])
     spot = post.build_spot(spot_params)
     if spot.save
-      render json: spot 
+      render json: spot
     else
-      render json: spot.errors, status: 422
+      render json: spot.errors, status: :unprocessable_entity
     end
   end
 
   def spot_detail
-    place_id = (params[:place_id])
+    place_id = params[:place_id]
     key = ENV['PLACE_API_KEY']
     # 詳細検索
     response = Faraday.get("https://maps.googleapis.com/maps/api/place/details/json?place_id=#{place_id}&key=#{key}&language=ja")
@@ -23,21 +22,19 @@ class Api::V1::SpotsController < SecuredController
 
     # 都道府県と市をbodyから取得する
     prefectures_city = ''
-    body['address_components'].reverse.map{|address|
-      address['types'].map{|type|
-        if type == 'administrative_area_level_1' || type == 'locality'
-          prefectures_city += address['long_name']
-        end
-      }
-    }
-    
+    body['address_components'].reverse.map do |address|
+      address['types'].map  do |type|
+        prefectures_city += address['long_name'] if %w[administrative_area_level_1 locality].include?(type)
+      end
+    end
+
     resluts = {
       name: body['name'],
       web_url: body['website'],
       map_url: body['url'],
       place: prefectures_city,
       place_detail: body['formatted_address'],
-      place_id: body['place_id'],
+      place_id: body['place_id']
     }
 
     render json: {
@@ -45,8 +42,9 @@ class Api::V1::SpotsController < SecuredController
     }
   end
 
-  private 
+  private
+
   def spot_params
-  params.require(:spot).permit(:name,:web_url,:map_url,:place,:place_detail,:place_id)
+    params.require(:spot).permit(:name, :web_url, :map_url, :place, :place_detail, :place_id)
   end
 end
