@@ -32,7 +32,7 @@ gem 'faker'
 gem 'aws-sdk-s3' ,require: false
 
 group :production do
-  gem 'unicorn', '5.4.1'
+
 end
 
 group :development, :test do
@@ -46,13 +46,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'pry-rails'
-  gem "capistrano", "~> 3.10", require: false
-  gem "capistrano-rails", "~> 1.6", require: false
-  gem 'capistrano-rbenv', '~> 2.2'
-  gem 'capistrano-rbenv-vars', '~> 0.1'
-  gem 'capistrano3-puma'
-  gem 'ed25519'
-  gem 'bcrypt_pbkdf'
+  gem 'rubocop-rails', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
