@@ -8,10 +8,6 @@ class AuthorizationService
     @user = User.from_token_payload(@auth_payload)
   end
 
-  def authenticate_request!
-    verify_token
-  end
-
   private
 
   def http_token
